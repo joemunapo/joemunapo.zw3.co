@@ -46,6 +46,12 @@
     <link rel="canonical" href="https://joemunapo.zw3.co/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+
     <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -57,7 +63,7 @@
               brand: "#22c55e",
               ink: { DEFAULT: "#e5e7eb", soft: "#cbd5e1", mute: "#94a3b8" },
               panel: { DEFAULT: "#0f172a", soft: "#111827" },
-              deriv: "#ff444f", // Deriv red for CTAs/amounts
+              deriv: "#ff444f",
             },
             animation: {
               gradient: "gradient 8s ease infinite",
@@ -87,10 +93,10 @@
     >
       <a href="#" class="text-lg font-bold tracking-tight">Joe Munapo</a>
       <nav class="hidden md:flex items-center gap-6 text-sm text-ink-mute">
-        <a href="#services" class="hover:text-ink">Services</a>
-        <a href="#skills" class="hover:text-ink">Skills</a>
-        <a href="#deriv" class="hover:text-ink">Deriv</a>
-        <a href="#contact" class="hover:text-ink">Contact</a>
+        <a href="#services" class="scroll-link hover:text-ink">Services</a>
+        <a href="#skills" class="scroll-link hover:text-ink">Skills</a>
+        <a href="#deriv" class="scroll-link hover:text-ink">Deriv</a>
+        <a href="#contact" class="scroll-link hover:text-ink">Contact</a>
       </nav>
       <a
         href="https://wa.me/263779222722?text=Hi%20Joe%2C%20I%27d%20like%20to%20chat."
@@ -118,12 +124,12 @@
         <div class="mt-6 flex flex-wrap gap-3">
           <a
             href="#deriv"
-            class="px-5 py-3 rounded-lg bg-deriv text-white font-semibold"
+            class="scroll-link px-5 py-3 rounded-lg bg-deriv text-white font-semibold"
             >Deriv: Deposit / Withdraw</a
           >
           <a
             href="#skills"
-            class="px-5 py-3 rounded-lg border border-gray-700 hover:bg-gray-800"
+            class="scroll-link px-5 py-3 rounded-lg border border-gray-700 hover:bg-gray-800"
             >View Skills</a
           >
         </div>
@@ -140,7 +146,7 @@
       </div>
     </section>
 
-    <!-- SERVICES (general) -->
+    <!-- SERVICES -->
     <section id="services" class="max-w-6xl mx-auto px-4 py-8">
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="rounded-xl border border-gray-800 bg-panel p-6">
@@ -223,7 +229,7 @@
         </div>
       </div>
 
-      <!-- Quick fees snapshot (edit as needed) -->
+      <!-- Fee snapshot -->
       <div class="mt-8 overflow-hidden rounded-xl border border-gray-800">
         <table class="w-full text-sm">
           <thead class="bg-panel-soft">
@@ -254,18 +260,20 @@
       <!-- CTAs -->
       <div class="mt-6 flex flex-wrap gap-3">
         <a
+          target="_blank"
           href="https://wa.me/263779222722?text=Hi%20Joe%2C%20I%20want%20to%20deposit%20to%20Deriv.%20My%20CR%20number%20is%20____."
           class="px-5 py-3 rounded-lg bg-deriv text-white font-semibold"
           >WhatsApp: Deposit</a
         >
         <a
+          target="_blank"
           href="https://wa.me/263779222722?text=Hi%20Joe%2C%20I%20want%20to%20withdraw%20from%20Deriv.%20My%20CR%20number%20is%20____."
           class="px-5 py-3 rounded-lg border border-gray-700 hover:bg-gray-800"
           >WhatsApp: Withdraw</a
         >
       </div>
 
-      <!-- Simplified but compliant disclaimer -->
+      <!-- Disclaimer -->
       <div
         class="mt-8 p-4 rounded-lg border border-amber-500/40 bg-amber-900/20"
       >
@@ -293,6 +301,7 @@
         </p>
         <a
           href="https://wa.me/263779222722"
+          target="_blank"
           class="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 bg-brand text-gray-900 font-semibold"
           >Chat on WhatsApp</a
         >
@@ -320,8 +329,38 @@
       </div>
     </footer>
 
+    <!-- Smooth scroll + clean URL -->
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const links = document.querySelectorAll("a.scroll-link");
+
+        links.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute("href").substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 60,
+                behavior: "smooth",
+              });
+
+              // Remove hash completely from the URL
+              if (history.pushState) {
+                history.pushState(
+                  null,
+                  null,
+                  window.location.pathname + window.location.search
+                );
+              }
+            }
+          });
+        });
+      });
     </script>
   </body>
 </html>
